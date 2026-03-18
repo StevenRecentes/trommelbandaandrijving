@@ -59,6 +59,17 @@ function registerAuthRoutes({
     `);
   }
 
+  async function resolveDefaultKlantRoleId(pool) {
+    const request = pool.request();
+    const result = await request.query(`
+      SELECT TOP 1 id
+      FROM dbo.tbl_roles
+      WHERE LOWER(naam) = 'klant'
+      ORDER BY id
+    `);
+    return result.recordset[0]?.id ? Number(result.recordset[0].id) : null;
+  }
+
   app.get("/api/auth/microsoft/start", async (req, res) => {
     if (!(await ensureDbConfigured(res))) return;
     if (!hasMicrosoftAuth) {
@@ -160,7 +171,7 @@ function registerAuthRoutes({
       id: req.user.user_id,
       username: req.user.username,
       email: req.user.email,
-      role: req.user.role || "user",
+      role: req.user.role || "klant",
       is_super_admin: Boolean(req.user.is_super_admin),
     });
   });
@@ -253,7 +264,7 @@ function registerAuthRoutes({
           id: user.user_id,
           username: user.username,
           email: user.email,
-          role: user.role || "user",
+          role: user.role || "klant",
           is_super_admin: Boolean(user.is_super_admin),
         },
         themeSettings,
@@ -329,11 +340,24 @@ function registerAuthRoutes({
       insert.input("password_hash", passwordHash);
       insert.input("voornaam", voornaam || null);
       insert.input("achternaam", achternaam || null);
-      insert.input("role", "user");
+      insert.input("role", "Klant");
       insert.input("is_super_admin", 0);
-      await insert.query(`
+      const insertResult = await insert.query(`
         INSERT INTO dbo.tbl_users (username, email, password_hash, voornaam, achternaam, role, is_super_admin, created_at)
+        OUTPUT INSERTED.user_id
         VALUES (@username, @email, @password_hash, @voornaam, @achternaam, @role, @is_super_admin, GETDATE())
+      `);
+      const userId = Number(insertResult.recordset?.[0]?.user_id || 0);
+      const klantRoleId = await resolveDefaultKlantRoleId(pool);
+      if (!userId || !klantRoleId) {
+        return res.status(500).json({ error: "Standaardrol Klant ontbreekt. Voer rolmigratie uit." });
+      }
+      const roleLink = pool.request();
+      roleLink.input("user_id", userId);
+      roleLink.input("role_id", klantRoleId);
+      await roleLink.query(`
+        IF NOT EXISTS (SELECT 1 FROM dbo.tbl_user_roles WHERE user_id = @user_id AND role_id = @role_id)
+          INSERT INTO dbo.tbl_user_roles (user_id, role_id) VALUES (@user_id, @role_id)
       `);
 
       await logAuthAttempt(pool, {

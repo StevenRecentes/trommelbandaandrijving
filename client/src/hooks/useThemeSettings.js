@@ -4,7 +4,7 @@ import { getBootstrap, loadBootstrap } from "../bootstrap";
 
 const DEFAULT_SETTINGS = {
   theme: "light",
-  accentColor: "#2c5f41",
+  accentColor: "#27aae1",
   accentTextColor: "#ffffff",
   sidebarVariant: "accent-gradient",
   gradientIntensity: 30,

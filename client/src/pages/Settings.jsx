@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import useThemeSettings from "../hooks/useThemeSettings";
 
-const DEFAULT_ACCENT = "#2c5f41";
+const DEFAULT_ACCENT = "#27aae1";
 const THEME_OPTIONS = [
   { value: "light", label: "Licht", icon: "fa-sun", demoClass: "light-demo" },
   { value: "dark", label: "Donker", icon: "fa-moon", demoClass: "dark-demo" },

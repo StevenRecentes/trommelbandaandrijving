@@ -76,6 +76,19 @@ export default function useAuth(enabled = true) {
       storeUser(immediateUser);
       setLoading(false);
       setReady(true);
+      // Background session validation: verify the cached session is still valid
+      getJson("/auth/me")
+        .then((data) => {
+          if (!mounted) return;
+          setUser(data);
+          storeUser(data);
+        })
+        .catch(() => {
+          if (!mounted) return;
+          // Session expired or invalid — clear cache so App.jsx redirects to login
+          setUser(null);
+          storeUser(null);
+        });
       return () => {
         mounted = false;
       };

@@ -420,3 +420,11 @@ The following packages and patterns are absent but expected in an enterprise Nod
 The frontend and parts of the authentication system are well-implemented and form a solid starting point. However, the SQL injection vulnerability, disabled CSRF, unencrypted database connection, and missing test/CI infrastructure are blockers for any production use with real user data. The code quality issues (monolithic file, no logging, no audit trail) would also present significant operational and compliance challenges at enterprise scale.
 
 With the Sprint 0 and Sprint 1 items addressed this becomes a competent, secure foundation. Adding tests, structured logging, and a deployment pipeline would bring it to a genuine enterprise baseline.
+
+---
+
+## 8. Architectuurupdate 2026-03-17
+
+- `Bouwplan_codex.md` is uitgebreid van high-level plan naar uitvoerbare architectuurblauwdruk.
+- Vastgelegd: portaal-scheiding, feature-first doelstructuur, API-grenzen, selectie-engine modularisatie, datamodelnormalisatie en migratiefasering.
+- Belangrijk architectuurbesluit: Excel-matrixstructuren worden altijd vertaald naar rijgebaseerde entiteiten om uitbreiding met extra leveranciers mogelijk te maken zonder schema-herbouw.

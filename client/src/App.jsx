@@ -4,6 +4,12 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Accountbeheer from "./pages/Accountbeheer.jsx";
 import Rollen from "./pages/Rollen.jsx";
 import Stamgegevens from "./pages/Stamgegevens.jsx";
+import GegevensLeveranciers from "./pages/GegevensLeveranciers.jsx";
+import GegevensMotors from "./pages/GegevensMotors.jsx";
+import GegevensBanden from "./pages/GegevensBanden.jsx";
+import AanvragenBeheer from "./pages/AanvragenBeheer.jsx";
+import KlantenportaalHome from "./pages/klantenportaal/KlantenportaalHome.jsx";
+import KlantenportaalMijnAanvragen from "./pages/klantenportaal/KlantenportaalMijnAanvragen.jsx";
 import FeatureFlags from "./pages/FeatureFlags.jsx";
 import { SettingsView } from "./pages/Settings.jsx";
 import Profile from "./pages/Profile.jsx";
@@ -24,6 +30,12 @@ const navItems = [
   { to: "/accounts", label: "Accountbeheer", icon: "fa-users-cog", permissions: ["/accounts*"] },
   { to: "/rollen", label: "Rolbeheer", icon: "fa-user-shield", permissions: ["/rollen*"] },
   { to: "/stamgegevens", label: "Stamgegevens", icon: "fa-database", permissions: ["/stamgegevens*"] },
+  { to: "/gegevens/leveranciers", label: "Gegevens: Leveranciers", icon: "fa-industry", permissions: ["/gegevens/leveranciers*"] },
+  { to: "/gegevens/motors", label: "Gegevens: Motors", icon: "fa-cogs", permissions: ["/gegevens/motors*"] },
+  { to: "/gegevens/banden", label: "Gegevens: Banden", icon: "fa-grip-lines", permissions: ["/gegevens/banden*"] },
+  { to: "/aanvragen", label: "Aanvragen", icon: "fa-file-signature", permissions: ["/aanvragen*"] },
+  { to: "/klantenportaal/aanvragen", label: "Klantenportaal Home", icon: "fa-house-user", permissions: ["/klantenportaal/aanvragen*"] },
+  { to: "/klantenportaal/aanvragen/mijn", label: "Mijn aanvragen", icon: "fa-file-circle-check", permissions: ["/klantenportaal/aanvragen/mijn*", "/klantenportaal/aanvragen*"] },
   { to: "/feature-flags", label: "Feature flags", icon: "fa-flag", permissions: ["/feature-flags*"] },
 ];
 
@@ -117,10 +129,39 @@ function App() {
     });
   }, [enableUserSettings, isAllowedPath]);
 
-  const firstAllowedPath = filteredNavItems[0]?.to || "/";
+  const isKlantPortalOnly = useMemo(() => {
+    return (
+      isAllowedPath("/klantenportaal/aanvragen") &&
+      !isAllowedPath("/aanvragen") &&
+      !isAllowedPath("/accounts") &&
+      !isAllowedPath("/rollen")
+    );
+  }, [isAllowedPath]);
+
+  const resolvedNavItems = useMemo(() => {
+    const mapped = filteredNavItems.map((item) => {
+      if (item.to === "/" && isKlantPortalOnly) {
+        return {
+          ...item,
+          to: "/klantenportaal/aanvragen",
+          end: false,
+        };
+      }
+      return item;
+    });
+    if (!isKlantPortalOnly) return mapped;
+    return mapped.filter((item, index) => {
+      if (item.to !== "/klantenportaal/aanvragen") return true;
+      return index === mapped.findIndex((candidate) => candidate.to === "/klantenportaal/aanvragen");
+    });
+  }, [filteredNavItems, isKlantPortalOnly]);
+
+  const firstAllowedPath = resolvedNavItems[0]?.to || "/";
 
   const pageMeta = useMemo(() => {
-    const match = filteredNavItems.find((item) =>
+    const match = [...resolvedNavItems]
+      .sort((a, b) => b.to.length - a.to.length)
+      .find((item) =>
       item.end ? location.pathname === item.to : location.pathname.startsWith(item.to)
     );
     if (!match && location.pathname.startsWith("/profiel")) {
@@ -134,6 +175,12 @@ function App() {
       Accountbeheer: "Beheer gebruikers en rollen",
       Rolbeheer: "Beheer rollen en permissies",
       Stamgegevens: "Beheer stamgegevens",
+      "Gegevens: Leveranciers": "Beheer leveranciers, uitvoeringen en Aansluitingen",
+      "Gegevens: Motors": "Beheer motortypes en motor specs",
+      "Gegevens: Banden": "Beheer bandtypes en compatibiliteit",
+      Aanvragen: "Overzicht en opvolging van aanvragen",
+      "Klantenportaal Home": "Laatste klantaanvragen en statusupdates",
+      "Mijn aanvragen": "Overzicht en opvolging van eigen aanvragen",
       "Feature flags": "Beheer feature toggles",
       Instellingen: "Theme & layout instellingen",
       Profiel: "Beheer je persoonlijke gegevens en instellingen",
@@ -142,7 +189,7 @@ function App() {
       title: match?.label || "Dashboard",
       subtitle: subtitleMap[match?.label || "Home"] || "Overzicht",
     };
-  }, [filteredNavItems, location.pathname]);
+  }, [resolvedNavItems, location.pathname]);
 
   useEffect(() => {
     setProfileOpen(false);
@@ -261,8 +308,8 @@ function App() {
       <aside className={sidebarClass}>
         <div className="sidebar-header">
           <div className="logo">
-            <img className="logo-img" alt="Template" src="https://placehold.co/32x32" />
-            <h3>Template UI</h3>
+            <img className="logo-img" alt="TransportBand Aandrijving" src="/src/assets/tba-icon.png" />
+            <h3>TBA</h3>
           </div>
           <button className="sidebar-toggle" onClick={toggleSidebar} type="button">
             <i className="fas fa-angle-left" />
@@ -270,7 +317,7 @@ function App() {
         </div>
         <div className="sidebar-menu">
           <ul className="menu-list">
-            {filteredNavItems.map((item) => (
+            {resolvedNavItems.map((item) => (
               <li key={item.to} className="menu-item">
                 <NavLink
                   to={item.to}
@@ -364,7 +411,7 @@ function App() {
 
         <div className="content-area">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={isKlantPortalOnly ? <Navigate to="/klantenportaal/aanvragen" replace /> : <Dashboard />} />
             <Route
               path="/accounts"
               element={isAllowedPath("/accounts") ? <Accountbeheer /> : <Navigate to={firstAllowedPath} replace />}
@@ -382,6 +429,30 @@ function App() {
               element={
                 isAllowedPath("/feature-flags") ? <FeatureFlags /> : <Navigate to={firstAllowedPath} replace />
               }
+            />
+            <Route
+              path="/gegevens/leveranciers"
+              element={isAllowedPath("/gegevens/leveranciers") ? <GegevensLeveranciers /> : <Navigate to={firstAllowedPath} replace />}
+            />
+            <Route
+              path="/gegevens/motors"
+              element={isAllowedPath("/gegevens/motors") ? <GegevensMotors /> : <Navigate to={firstAllowedPath} replace />}
+            />
+            <Route
+              path="/gegevens/banden"
+              element={isAllowedPath("/gegevens/banden") ? <GegevensBanden /> : <Navigate to={firstAllowedPath} replace />}
+            />
+            <Route
+              path="/aanvragen"
+              element={isAllowedPath("/aanvragen") ? <AanvragenBeheer /> : <Navigate to={firstAllowedPath} replace />}
+            />
+            <Route
+              path="/klantenportaal/aanvragen"
+              element={isAllowedPath("/klantenportaal/aanvragen") ? <KlantenportaalHome /> : <Navigate to={firstAllowedPath} replace />}
+            />
+            <Route
+              path="/klantenportaal/aanvragen/mijn"
+              element={isAllowedPath("/klantenportaal/aanvragen/mijn") ? <KlantenportaalMijnAanvragen /> : <Navigate to={firstAllowedPath} replace />}
             />
               {enableUserSettings ? (
                 <Route
@@ -408,7 +479,7 @@ function App() {
           </Routes>
         </div>
 
-        <footer className="app-footer">Template UI | Live DB ready</footer>
+        <footer className="app-footer">TransportBand Aandrijving | Webaplicatie</footer>
       </div>
 
       <div className={`sidebar-overlay ${mobileOpen ? "active" : ""}`} onClick={() => setMobileOpen(false)} />

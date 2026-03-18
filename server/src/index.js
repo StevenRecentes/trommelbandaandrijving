@@ -17,6 +17,8 @@ const { registerAccountRoutes } = require("./routes/accountRoutes");
 const { registerSystemRoutes } = require("./routes/systemRoutes");
 const { registerAuthRoutes } = require("./routes/authRoutes");
 const { registerClientShellRoutes } = require("./routes/clientShellRoutes");
+const { registerCatalogusRoutes } = require("./routes/catalogusRoutes");
+const { registerAanvraagRoutes } = require("./routes/aanvraagRoutes");
 const { createAccessControl } = require("./security/accessControl");
 const { createAuthFlowHelpers } = require("./security/authFlowHelpers");
 const { buildCspHeader } = require("./security/csp");
@@ -43,6 +45,12 @@ const PAGE_PATTERNS = [
   { name: "Accountbeheer", pattern: "/accounts*" },
   { name: "Rolbeheer", pattern: "/rollen*" },
   { name: "Stamgegevens Beheer", pattern: "/stamgegevens*" },
+  { name: "Gegevens Leveranciers", pattern: "/gegevens/leveranciers*" },
+  { name: "Gegevens Motors", pattern: "/gegevens/motors*" },
+  { name: "Gegevens Banden", pattern: "/gegevens/banden*" },
+  { name: "Aanvragen Beheer", pattern: "/aanvragen*" },
+  { name: "Klantenportaal Aanvragen", pattern: "/klantenportaal/aanvragen*" },
+  { name: "Klantenportaal Mijn Aanvragen", pattern: "/klantenportaal/aanvragen/mijn*" },
   { name: "Feature flags", pattern: "/feature-flags*" },
   { name: "Instellingen", pattern: "/settings*" },
   { name: "Profiel", pattern: "/profiel*" },
@@ -51,7 +59,7 @@ const PAGE_PATTERNS = [
 const DEFAULT_SETTINGS = {
   theme: "light",
   display_mode: "full",
-  accent_color: "#2c5f41",
+  accent_color: "#27aae1",
   accent_text_color: "#ffffff",
   sidebar_variant: "accent-gradient",
   gradient_intensity: 30,
@@ -278,6 +286,22 @@ registerAccountRoutes({
 });
 
 registerFeatureFlagRoutes({
+  app,
+  db,
+  ensureDbConfigured,
+  requireAuth,
+  requirePermission,
+});
+
+registerCatalogusRoutes({
+  app,
+  db,
+  ensureDbConfigured,
+  requireAuth,
+  requirePermission,
+});
+
+registerAanvraagRoutes({
   app,
   db,
   ensureDbConfigured,

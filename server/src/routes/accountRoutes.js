@@ -56,7 +56,8 @@ function registerAccountRoutes({
       const result = await request.query(`
         SELECT id, naam, volgorde
         FROM dbo.vw_roles
-        WHERE LOWER(naam) <> LOWER(@super_admin_name)
+        WHERE LOWER(naam) IN ('admin', 'klant')
+          AND LOWER(naam) <> LOWER(@super_admin_name)
         ORDER BY volgorde, id
       `);
       res.json(result.recordset || []);

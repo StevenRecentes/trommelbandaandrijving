@@ -1,0 +1,161 @@
+/* ===== TBA BRAND STIJL ===== */
+/* Merkpalet: #27aae1 (TBA blauw) + #6f2c91 (TBA paars) */
+
+/* ── BRAND VARIABELEN (lokaal voor leesbaarheid) ────────────────────── */
+:root {
+    --tba-blue: #27aae1;
+    --tba-blue-dark: #1c8fc4;
+    --tba-purple: #6f2c91;
+    --tba-purple-dark: #5a2278;
+}
+
+/* ── SIDEBAR: wit, rand en schaduw ───────────────────────────────────── */
+.sidebar {
+    border-right: 1px solid #dde3ec;
+    box-shadow: 2px 0 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover: lichtblauwe tint */
+.sidebar .menu-link:hover {
+    background: rgba(39, 170, 225, 0.10) !important;
+    color: #27aae1 !important;
+    box-shadow: none !important;
+}
+
+/* Active: paarse tint + paarse accentbalk */
+.sidebar .menu-link.active {
+    background: rgba(111, 44, 145, 0.13) !important;
+    color: #6f2c91 !important;
+}
+
+.sidebar .menu-link.active:hover {
+    background: rgba(111, 44, 145, 0.22) !important;
+    box-shadow: none !important;
+}
+
+/* User-info hover: blauwe tint */
+.sidebar .user-info:hover {
+    background: rgba(39, 170, 225, 0.10) !important;
+    color: #27aae1 !important;
+    box-shadow: none !important;
+}
+
+/* Uitlogknop hover: rood */
+.sidebar .logout-btn:hover {
+    color: var(--danger-color) !important;
+    background: rgba(220, 53, 69, 0.08) !important;
+    box-shadow: none !important;
+}
+
+/* Sidebar footer scheidingslijn */
+.sidebar .sidebar-footer {
+    border-top-color: #dde3ec !important;
+}
+
+/* Avatar: paarse cirkel met wit initiaal */
+.sidebar .user-avatar {
+    background: #6f2c91 !important;
+    color: #ffffff !important;
+}
+
+/* ── TOP-HEADER: blauw-paarse gradiëntlijn onderaan ─────────────────── */
+.top-header {
+    border-bottom: none !important;
+    box-shadow: 0 2px 12px rgba(111, 44, 145, 0.15) !important;
+    position: relative;
+}
+
+.top-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #27aae1;
+    pointer-events: none;
+}
+
+/* ── WIDGET CARDS: paarse header ────────────────────────────────────── */
+.widget-card-header {
+    background: #6f2c91 !important;
+    color: #ffffff !important;
+    border-bottom: none !important;
+}
+
+.widget-card-header * {
+    color: #ffffff !important;
+}
+
+/* ── METRIC TILES: afwisselend blauw / paars bovenlijn ──────────────── */
+.metric-tile {
+    border-top: 3px solid #27aae1 !important;
+}
+
+.metric-tile:nth-child(even) {
+    border-top-color: #6f2c91 !important;
+}
+
+/* ── STANDAARD BOOTSTRAP TABLE: paarse thead ────────────────────────── */
+.table thead th,
+.table th {
+    background: #6f2c91 !important;
+    color: #ffffff !important;
+    border-color: #5a2278 !important;
+}
+
+.table tbody tr:nth-child(even) td {
+    background-color: #f5f0f9 !important;
+}
+
+/* ── CLIENT TABLE (.standard-table): paarse thead ───────────────────── */
+.standard-table thead {
+    background: #6f2c91 !important;
+    border-bottom: 2px solid #5a2278 !important;
+}
+
+/* TH tekst wit op gekleurde achtergrond */
+body .standard-table th,
+body .standard-table th span,
+body .standard-table th .th-text {
+    color: #ffffff !important;
+}
+
+/* Sorteer-hover: licht wit tint */
+.standard-table th.sortable:hover {
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+}
+
+/* Sorteer-icoontjes wit houden */
+.standard-table th .sort-icon,
+.standard-table th .filter-icon {
+    color: rgba(255, 255, 255, 0.80) !important;
+}
+
+.standard-table th.sorted .sort-icon,
+.standard-table th.filtered .filter-icon {
+    color: #ffffff !important;
+}
+
+/* ── TABLE HEADER SECTIE (boven zoekbalk/knoppen) ────────────────────── */
+.table-header {
+    background: #f8f5fb !important;
+    border-bottom: 2px solid #6f2c91 !important;
+}
+
+.table-title {
+    color: #6f2c91 !important;
+    font-weight: 700 !important;
+}
+
+/* ── PAGE TITLE: paarse kleur ────────────────────────────────────────── */
+.page-title {
+    color: #6f2c91 !important;
+}
+
+/* ── PAGE HEADER: paarse linksbalk ───────────────────────────────────── */
+.page-header {
+    border-left: 4px solid #6f2c91;
+    padding-left: 14px;
+}

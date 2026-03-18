@@ -1,8 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/src/assets/tba-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- APP_BOOTSTRAP -->
     <script nonce="__CSP_NONCE__">
@@ -25,7 +28,7 @@
             if (!/^#?[0-9a-fA-F]{6}$/.test(trimmed)) return fallback;
             return trimmed.charAt(0) === "#" ? trimmed : "#" + trimmed;
           };
-          var accentColor = normalizeHex(data.accentColor, "#2c5f41");
+          var accentColor = normalizeHex(data.accentColor, "#27aae1");
           var accentTextColor = normalizeHex(data.accentTextColor, "#ffffff");
           var gradientIntensity = Number(data.gradientIntensity);
           if (!isFinite(gradientIntensity)) gradientIntensity = 30;
@@ -66,7 +69,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <title>client</title>
+    <title>TransportBand Aandrijving</title>
   </head>
   <body>
     <div id="root"></div>

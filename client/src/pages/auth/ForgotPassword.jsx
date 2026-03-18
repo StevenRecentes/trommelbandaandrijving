@@ -37,7 +37,7 @@ export default function ForgotPassword() {
         <div className="auth-header">
           <div className={`auth-logo ${logoFailed ? "auth-logo-circle" : "auth-logo-image"}`}>
             {!logoFailed ? (
-              <img src="/expert_excel_logo.png" alt="Expert Excel" onError={() => setLogoFailed(true)} />
+              <img src="/src/assets/tba-logo.png" alt="TransportBand Aandrijving" onError={() => setLogoFailed(true)} />
             ) : (
               <i className="fas fa-key" />
             )}

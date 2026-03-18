@@ -44,7 +44,7 @@ export default function Login() {
     const root = document.documentElement;
     const body = document.body;
     const theme = settings.theme || "light";
-    const accentColor = settings.accentColor || "#2c5f41";
+    const accentColor = settings.accentColor || "#27aae1";
     const accentTextColor = settings.accentTextColor || "#ffffff";
     const gradientIntensity = Number.isFinite(settings.gradientIntensity) ? settings.gradientIntensity : 30;
     const hexToRgb = (hex) => {
@@ -111,12 +111,12 @@ export default function Login() {
         <div className="auth-header">
           <div className={`auth-logo ${logoFailed ? "auth-logo-circle" : "auth-logo-image"}`}>
             {!logoFailed ? (
-              <img src="/expert_excel_logo.png" alt="Expert Excel" onError={() => setLogoFailed(true)} />
+              <img src="/src/assets/tba-logo.png" alt="TransportBand Aandrijving" onError={() => setLogoFailed(true)} />
             ) : (
               <i className="fas fa-leaf" />
             )}
           </div>
-          <h1 className="auth-title">Planningstool</h1>
+          <h1 className="auth-title">TransportBand Aandrijving</h1>
           <p className="auth-subtitle">Meld je aan om door te gaan</p>
         </div>
 

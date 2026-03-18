@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "node src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test:ammdrive": "node --test test/ammdrive.integration.test.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,8 @@
     "express": "^5.2.1",
     "helmet": "^8.1.0",
     "jose": "^5.9.2",
-    "mssql": "^11.0.1"
+    "mssql": "^11.0.1",
+    "nodemailer": "^8.0.2",
+    "pdfkit": "^0.18.0"
   }
 }

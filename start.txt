@@ -1,0 +1,5 @@
+PROJECT MANAGER: START UITGEVOERD (2026-03-17)
+Actief plan: PROJECTMANAGER_START.md
+Status: Fase 0-4 basis gerealiseerd, Fase 5 hardening/validatie actief
+Besluitdocument: ARCHITECT_BESLISVOORSTELLEN.md (vastgesteld)
+Blocker: lokale DB-driver/DSN niet beschikbaar (database_setup.py kon niet verbinden)

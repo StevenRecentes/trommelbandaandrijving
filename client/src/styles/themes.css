@@ -4,7 +4,7 @@
 /* CSS Custom Properties voor thema's */
 :root {
     /* Light Theme (default) */
-    --bg-primary: #f8f9fa;
+    --bg-primary: #eef2f7;
     --bg-secondary: #ffffff;
     --bg-tertiary: #f1f3f4;
     --text-primary: #181c22; /* Zeer donker voor maximale leesbaarheid */
@@ -12,21 +12,24 @@
     --text-muted: #6c757d; /* Iets donkerder dan standaard muted */
     --border-color: #d1d5db;
     --border-color-light: #e5e7eb;
-    --accent-color: #2c5f41;
-    --accent-color-rgb: 44, 95, 65;
-    --accent-hover: #1a3c28;
+    --accent-color: #27aae1;
+    --accent-color-rgb: 39, 170, 225;
+    --accent-hover: #1c8fc4;
     --accent-text-color: #ffffff;
+    --brand-secondary: #6f2c91;
+    --brand-secondary-rgb: 111, 44, 145;
+    --brand-secondary-hover: #5a2278;
     --success-color: #198754;
     --warning-color: #fd7e14;
     --danger-color: #dc3545;
     --info-color: #0dcaf0;
     
     /* Sidebar specifiek */
-    --sidebar-bg: linear-gradient(135deg, #2c5f41 0%, #1e4530 100%);
-    --sidebar-text: #ffffff;
-    --sidebar-text-muted: rgba(255, 255, 255, 0.85);
-    --sidebar-hover: rgba(255, 255, 255, 0.1);
-    --sidebar-active: rgba(255, 255, 255, 0.2);
+    --sidebar-bg: #ffffff;
+    --sidebar-text: #1e293b;
+    --sidebar-text-muted: #64748b;
+    --sidebar-hover: rgba(39, 170, 225, 0.09);
+    --sidebar-active: rgba(39, 170, 225, 0.16);
     --sidebar-accent-start: var(--accent-color);
     --sidebar-accent-end: var(--sidebar-accent-second, var(--accent-color));
     

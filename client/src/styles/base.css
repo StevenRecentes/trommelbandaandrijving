@@ -10,7 +10,7 @@
 
 
 body {
-    font-family: system-ui, 'Segoe UI', 'Roboto', 'Apple-system', 'Arial', sans-serif;
+    font-family: 'Open Sans', system-ui, 'Segoe UI', Arial, sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: var(--line-height, 1.6);
@@ -31,7 +31,7 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
     color: var(--accent-color);
     margin-bottom: var(--margin-md, 1rem);
-    font-family: inherit;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
     font-weight: 700;
     letter-spacing: -0.01em;
     line-height: 1.2;
@@ -44,7 +44,6 @@ h5 { font-size: 1rem; font-weight: 500; }
 h6 { font-size: 0.95rem; font-weight: 500; }
 
 a {
-    color: #1a3c28;
     color: var(--accent-color);
     text-decoration: none;
     transition: color 0.2s ease;

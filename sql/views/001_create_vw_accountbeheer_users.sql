@@ -48,7 +48,7 @@ SELECT
     CASE 
         WHEN is_super_admin = 1 THEN 'Super Admin'
         WHEN role IS NOT NULL THEN role
-        ELSE 'User'
+        ELSE 'Klant'
     END AS role_label
 FROM 
     dbo.tbl_users;

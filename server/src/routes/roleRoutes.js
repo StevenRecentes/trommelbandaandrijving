@@ -18,7 +18,8 @@ function registerRoleRoutes({
       const rolesResult = await rolesRequest.query(`
         SELECT id, naam, volgorde
         FROM dbo.vw_roles
-        WHERE LOWER(naam) <> LOWER(@super_admin_name)
+        WHERE LOWER(naam) IN ('admin', 'klant')
+          AND LOWER(naam) <> LOWER(@super_admin_name)
         ORDER BY volgorde, id
       `);
       const permsRequest = pool.request();
@@ -59,6 +60,9 @@ function registerRoleRoutes({
     const name = (req.body?.name || "").trim();
     if (!name) {
       return res.status(400).json({ error: "Role name is required." });
+    }
+    if (!["admin", "klant"].includes(name.toLowerCase())) {
+      return res.status(400).json({ error: "Alleen rollen Admin en Klant zijn toegestaan." });
     }
     if (isSuperAdminRoleName(name)) {
       return res.status(400).json({ error: "Deze rolnaam is gereserveerd." });

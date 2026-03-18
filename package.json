@@ -6,9 +6,12 @@
     "guardrails": "node scripts/guardrails/run.js",
     "guardrails:strict": "node scripts/guardrails/run.js --strict-db-reads",
     "guardrails:enforce": "node scripts/guardrails/run.js --enforce",
-    "guardrails:enforce:strict": "node scripts/guardrails/run.js --strict-db-reads --enforce"
+    "guardrails:enforce:strict": "node scripts/guardrails/run.js --strict-db-reads --enforce",
+    "test:e2e": "node node_modules/@playwright/test/cli.js test",
+    "test:e2e:ui": "node node_modules/@playwright/test/cli.js test --ui"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "concurrently": "^8.2.2"
   }
 }

@@ -18,9 +18,10 @@
   font-family: inherit;
 }
 .logo-img {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 6px;
 }
 .logo h3 {
   color: var(--sidebar-header-ink);

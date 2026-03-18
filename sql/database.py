@@ -15,16 +15,15 @@ def _load_env():
             continue
         key, value = line.split("=", 1)
         value = value.strip().strip("'").strip('"')
-        os.environ.setdefault(key.strip(), value)
+        os.environ[key.strip()] = value
 
 
-def _build_connection_string():
+def _build_connection_string(driver):
     server = os.getenv("DB_SERVER", "localhost")
     port = os.getenv("DB_PORT", "1433")
     database = os.getenv("DB_NAME", "")
     user = os.getenv("DB_USER", "")
     password = os.getenv("DB_PASSWORD", "")
-    driver = os.getenv("DB_DRIVER", "ODBC Driver 18 for SQL Server")
     return (
         f"DRIVER={{{driver}}};"
         f"SERVER={server},{port};"
@@ -36,11 +35,56 @@ def _build_connection_string():
     )
 
 
+def _candidate_drivers():
+    env_driver = os.getenv("DB_DRIVER", "").strip()
+    preferred = [
+        "ODBC Driver 18 for SQL Server",
+        "ODBC Driver 17 for SQL Server",
+        "SQL Server",
+    ]
+    if env_driver:
+        preferred.insert(0, env_driver)
+
+    # keep order, remove duplicates
+    unique = []
+    for item in preferred:
+        if item and item not in unique:
+            unique.append(item)
+    return unique
+
+
 @contextmanager
 def get_db():
     _load_env()
-    conn_str = _build_connection_string()
-    conn = pyodbc.connect(conn_str)
+    installed = set(pyodbc.drivers())
+    drivers = _candidate_drivers()
+    attempted = []
+    conn = None
+    last_error = None
+    for driver in drivers:
+        attempted.append(driver)
+        if driver not in installed:
+            continue
+        try:
+            conn = pyodbc.connect(_build_connection_string(driver))
+            break
+        except Exception as exc:
+            conn = None
+            last_error = exc
+            continue
+
+    if conn is None:
+        installed_str = ", ".join(sorted(installed)) or "(none)"
+        attempted_str = ", ".join(attempted) or "(none)"
+        error_str = f" Last error: {last_error}" if last_error else ""
+        raise RuntimeError(
+            "Database connection failed. "
+            f"Tried drivers: {attempted_str}. "
+            f"Installed ODBC drivers: {installed_str}. "
+            "Set DB_DRIVER in .env to one of the installed SQL Server drivers."
+            f"{error_str}"
+        )
+
     try:
         yield conn
     finally:
