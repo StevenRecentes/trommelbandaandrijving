@@ -15,10 +15,20 @@ GO
 
 IF SUSER_ID(N'log_tba') IS NULL
 BEGIN
-    CREATE LOGIN [log_tba]
-    WITH PASSWORD = N'***REMOVED_DB_LOGIN_PASSWORD***',
-         CHECK_POLICY = ON,
-         CHECK_EXPIRATION = OFF;
+    DECLARE @LoginPassword NVARCHAR(256) = NULLIF(N'$(DB_LOGIN_PASSWORD)', N'');
+    IF @LoginPassword = N'$(DB_LOGIN_PASSWORD)'
+    BEGIN
+        SET @LoginPassword = NULL;
+    END;
+
+    IF @LoginPassword IS NULL
+    BEGIN
+        THROW 50001, 'DB_LOGIN_PASSWORD sqlcmd variable ontbreekt. Gebruik bijvoorbeeld: sqlcmd -v DB_LOGIN_PASSWORD=\"<sterk_wachtwoord>\" ...', 1;
+    END;
+
+    DECLARE @createLoginSql NVARCHAR(MAX) =
+        N'CREATE LOGIN [log_tba] WITH PASSWORD = N''' + REPLACE(@LoginPassword, '''', '''''') + N''', CHECK_POLICY = ON, CHECK_EXPIRATION = OFF;';
+    EXEC(@createLoginSql);
 END;
 GO
 

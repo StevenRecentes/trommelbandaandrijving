@@ -1,10 +1,17 @@
 // @ts-check
 const { test, expect } = require("@playwright/test");
 
+const E2E_LOGIN_EMAIL = process.env.E2E_LOGIN_EMAIL || "admin@example.com";
+const E2E_LOGIN_PASSWORD = process.env.E2E_LOGIN_PASSWORD || "";
+
 /**
  * Helper: log in via de API en stel session + CSRF cookies in voor de browser.
  */
-async function loginViaApi(page, base, email = "admin@example.com", password = "admin123") {
+async function loginViaApi(page, base, email = E2E_LOGIN_EMAIL, password = E2E_LOGIN_PASSWORD) {
+  if (!password) {
+    throw new Error("E2E_LOGIN_PASSWORD ontbreekt. Zet deze env variabele voordat je de test draait.");
+  }
+
   // Haal csrf_token op via een bootstrap-request zodat de cookie gezet wordt door de server.
   // De login-endpoint zet de csrf_token cookie na succesvolle login.
   const loginResp = await page.request.post(`${base}/api/auth/login`, {

@@ -54,7 +54,7 @@ WHEN NOT MATCHED THEN
 GO
 
 -- Create standard template account (email/password provided by user)
--- Password: ***REMOVED_TEMPLATE_PASSWORD*** (scrypt hashed)
+-- Password intentionally not documented here (avoid plaintext secrets in docs/comments)
 MERGE tbl_users AS target
 USING (VALUES 
     ('eesa', 'eesa@local.admin', 'scrypt:32768:8:1$i9DycJ3tBZ6dOciu$485931c007cd03d82a4931bd65e09ab8e75f01a1a1d53022f6bdee0eb5d57dd0a5a9cd648e1847240d9b5de07309c213ce76dd97c0d3c7e86ea6348a8e7e9332', 'admin', 1)

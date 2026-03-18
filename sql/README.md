@@ -67,7 +67,7 @@ python database_setup.py eesa
 
 **Account details:**
 - **Username:** EESA
-- **Password:** ***REMOVED_EESA_PASSWORD***
+- **Password:** zie `sql/data/03_default_users_seed.sql`
 - **Email:** eesa@admin.local
 - **Role:** superadmin (met alle rechten)
 

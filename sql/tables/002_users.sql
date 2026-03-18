@@ -58,7 +58,7 @@ CREATE TABLE dbo.tbl_active_sessions (
 );
 GO
 
--- Seed superadmin (wachtwoord: ***REMOVED_EESA_PASSWORD***)
+-- Seed superadmin (wachtwoordbeheer/documentatie via sql/data)
 IF NOT EXISTS (SELECT 1 FROM dbo.tbl_users WHERE username = 'EESA')
 BEGIN
     INSERT INTO dbo.tbl_users (username, email, password_hash, voornaam, achternaam, role, is_super_admin, created_at)
