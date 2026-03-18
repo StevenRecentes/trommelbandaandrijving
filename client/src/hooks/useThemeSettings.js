@@ -6,7 +6,7 @@ const DEFAULT_SETTINGS = {
   theme: "light",
   accentColor: "#27aae1",
   accentTextColor: "#ffffff",
-  sidebarVariant: "accent-gradient",
+  sidebarVariant: "white",
   gradientIntensity: 30,
 };
 const STORAGE_KEY = "themeSettings";

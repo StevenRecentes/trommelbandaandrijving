@@ -11,7 +11,6 @@ import AanvragenBeheer from "./pages/AanvragenBeheer.jsx";
 import KlantenportaalHome from "./pages/klantenportaal/KlantenportaalHome.jsx";
 import KlantenportaalMijnAanvragen from "./pages/klantenportaal/KlantenportaalMijnAanvragen.jsx";
 import FeatureFlags from "./pages/FeatureFlags.jsx";
-import { SettingsView } from "./pages/Settings.jsx";
 import Profile from "./pages/Profile.jsx";
 import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register.jsx";
@@ -80,11 +79,9 @@ function App() {
   }, [location.pathname]);
   const { user, loading: authLoading, logout, hasCache: authCached, ready: authReady } = useAuth(!isAuthRoute);
   const {
-    settings,
-    updateSettings,
     loading: themeLoading,
     hasCache: themeCached,
-  } = useThemeSettings(!isAuthRoute && Boolean(user));
+  } = useThemeSettings(false);
   const { settings: appSettings, loading: appSettingsLoading, hasCache: appSettingsCached } = useAppSettings();
   const { permissions, loading: permissionsLoading, hasCache: permissionsCached } = usePermissions(Boolean(user));
 
@@ -96,7 +93,7 @@ function App() {
   }, [permissions.allowedPaths, user?.is_super_admin]);
 
   const enableUserProfile = appSettings.featureFlags?.enableUserProfile !== false;
-  const enableUserSettings = appSettings.featureFlags?.enableUserSettings !== false;
+  const enableUserSettings = false;
   const localAuthEnabled = appSettings.localAuthEnabled !== false;
 
   const isAllowedPath = useMemo(() => {
@@ -243,7 +240,7 @@ function App() {
   const sidebarHeaderClass = appSettings.featureFlags?.sidebarHeaderWhite ? "header-white" : "header-theme";
   const sidebarClass = `sidebar ${collapsed ? "collapsed" : ""} ${
     mobileOpen ? "mobile-open" : ""
-  } variant-${settings.sidebarVariant} ${sidebarHeaderClass}`;
+  } variant-white ${sidebarHeaderClass}`;
 
   const appLoading =
     !isAuthRoute &&
@@ -454,20 +451,7 @@ function App() {
               path="/klantenportaal/aanvragen/mijn"
               element={isAllowedPath("/klantenportaal/aanvragen/mijn") ? <KlantenportaalMijnAanvragen /> : <Navigate to={firstAllowedPath} replace />}
             />
-              {enableUserSettings ? (
-                <Route
-                  path="/settings"
-                  element={
-                    isAllowedPath("/settings") ? (
-                      <SettingsView settings={settings} updateSettings={updateSettings} />
-                    ) : (
-                      <Navigate to={firstAllowedPath} replace />
-                    )
-                  }
-                />
-              ) : (
               <Route path="/settings" element={<Navigate to="/" replace />} />
-            )}
             {enableUserProfile ? (
               <Route
                 path="/profiel"
